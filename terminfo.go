@@ -73,6 +73,11 @@ func load_terminfo() ([]byte, error) {
 		}
 	}
 
+	// xterm-*
+	if strings.HasPrefix(term, "xterm-") {
+		return nil, errors.New("use built in!")
+	}
+
 	// The following behaviour follows the one described in terminfo(5) as
 	// distributed by ncurses.
 
@@ -144,6 +149,12 @@ func setup_term_builtin() error {
 			keys = t.keys
 			return nil
 		}
+	}
+
+	// xterm-*
+	if strings.HasPrefix(name, "xterm-") {
+		keys = xterm_keys
+		return nil
 	}
 
 	compat_table := []struct {
