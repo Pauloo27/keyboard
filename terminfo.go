@@ -55,6 +55,12 @@ var (
 		{"rxvt-unicode", rxvt_keys},
 		{"rxvt-256color", rxvt_keys},
 		{"linux", linux_keys},
+		// variants
+		{"rxvt", rxvt_keys},
+		// let's assume that 'cygwin' is xterm compatible
+		{"cygwin", xterm_keys},
+		{"st", xterm_keys},
+		{"st-256color", xterm_keys},
 	}
 )
 
@@ -155,31 +161,6 @@ func setup_term_builtin() error {
 	if strings.HasPrefix(name, "xterm-") {
 		keys = xterm_keys
 		return nil
-	}
-
-	compat_table := []struct {
-		partial string
-		keys    []string
-	}{
-		{"xterm", xterm_keys},
-		{"xterm-256color", xterm_keys},
-		{"rxvt", rxvt_keys},
-		{"rxvt-unicode", rxvt_keys},
-		{"rxvt-256color", rxvt_keys},
-		{"linux", linux_keys},
-		{"Eterm", eterm_keys},
-		{"screen", screen_keys},
-		// let's assume that 'cygwin' is xterm compatible
-		{"cygwin", xterm_keys},
-		{"st", xterm_keys},
-	}
-
-	// try compatibility variants
-	for _, it := range compat_table {
-		if strings.Contains(name, it.partial) {
-			keys = it.keys
-			return nil
-		}
 	}
 
 	return errors.New("termbox: unsupported terminal")
