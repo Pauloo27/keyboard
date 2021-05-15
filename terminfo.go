@@ -61,6 +61,7 @@ var (
 		{"cygwin", xterm_keys},
 		{"st", xterm_keys},
 		{"st-256color", xterm_keys},
+		{"alacritty", xterm_keys},
 	}
 )
 
